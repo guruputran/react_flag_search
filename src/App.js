@@ -11,18 +11,20 @@ export default function App() {
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
   const [q, setQ] = useState("");
-  const [searchParam] = useState(["capital", "name", "numericCode"]);
+  const [searchParam] = useState(["capital", "name", "numericCode", "region"]);
   const [filterParam, setFilterParam] = useState(["All"]);
 
   useEffect(() => {
     setTimeout(() => {
       getflags();
-      console.log("Hello, World!");
+      console.log("getflags function loaded");
     }, 20000);
   }, []);
   async function getflags() {
     fetch(
       "https://raw.githubusercontent.com/iamspruce/search-filter-painate-reactjs/main/data/countries.json"
+      //or use https://countryapi.io/register
+      //https://www.freecodecamp.org/news/how-to-react-components/
     )
       .then((res) => res.json())
       .then(
@@ -42,6 +44,7 @@ export default function App() {
     return items.filter((item) => {
       if (item.region == filterParam) {
         return searchParam.some((newItem) => {
+          console.log("newItem", item[newItem]);
           return (
             item[newItem].toString().toLowerCase().indexOf(q.toLowerCase()) > -1
           );
@@ -90,6 +93,7 @@ export default function App() {
             <select
               onChange={(e) => {
                 setFilterParam(e.target.value);
+                console.log("set filter params", e.target.value);
               }}
               className="custom-select"
               aria-label="Filter Countries By Region"

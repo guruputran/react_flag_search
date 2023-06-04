@@ -5,20 +5,21 @@
 
 import { useState, useEffect } from "react";
 import { ClockLoader, RingLoader, PacmanLoader } from "react-spinners";
+import "./App.css";
 
 export default function App() {
   const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [items, setItems] = useState([]);
   const [q, setQ] = useState("");
-  const [searchParam] = useState(["capital", "name", "numericCode", "region"]);
+  const [searchParam] = useState(["capital", "name", "numericCode"]);
   const [filterParam, setFilterParam] = useState(["All"]);
 
   useEffect(() => {
     setTimeout(() => {
       getflags();
       console.log("getflags function loaded");
-    }, 20000);
+    }, 2000);
   }, []);
   async function getflags() {
     fetch(
@@ -44,13 +45,14 @@ export default function App() {
     return items.filter((item) => {
       if (item.region == filterParam) {
         return searchParam.some((newItem) => {
-          console.log("newItem", item[newItem]);
+          // console.log("New items", item[newItem].toString().toLowerCase());
           return (
             item[newItem].toString().toLowerCase().indexOf(q.toLowerCase()) > -1
           );
         });
       } else if (filterParam == "All") {
         return searchParam.some((newItem) => {
+          // console.log("New items", item[newItem].toString().toLowerCase());
           return (
             item[newItem].toString().toLowerCase().indexOf(q.toLowerCase()) > -1
           );
@@ -82,7 +84,7 @@ export default function App() {
               name="search-form"
               id="search-form"
               className="search-input"
-              placeholder="Search for..."
+              placeholder="Search for ..."
               value={q}
               onChange={(e) => setQ(e.target.value)}
             />
@@ -99,11 +101,11 @@ export default function App() {
               aria-label="Filter Countries By Region"
             >
               <option value="All">Filter By Region</option>
+              <option value="Oceania">Oceania</option>
               <option value="Africa">Africa</option>
               <option value="Americas">America</option>
               <option value="Asia">Asia</option>
               <option value="Europe">Europe</option>
-              <option value="Oceania">Oceania</option>
             </select>
             <span className="focus"></span>
           </div>
